@@ -54,7 +54,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({ onBack }) => {
       if (router.canGoBack()) {
         router.back()
       } else {
-        router.replace("/")
+        router.replace("/home")
       }
       return true
     }

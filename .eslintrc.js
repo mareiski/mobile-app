@@ -5,7 +5,12 @@ module.exports = {
   plugins: ["prettier", "react-hooks", "react-perf", "unused-imports"],
   rules: {
     // Enforce Prettier rules
-    "prettier/prettier": "error",
+    "prettier/prettier": [
+      "error",
+      {
+        endOfLine: "auto",
+      },
+    ],
     // Enforce the use of === instead of ==
     "eqeqeq": "error",
     // Enforce comments to be spaced

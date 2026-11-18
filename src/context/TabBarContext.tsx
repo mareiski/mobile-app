@@ -53,7 +53,7 @@ function getActiveTab(
   params: ReturnType<typeof useLocalSearchParams>,
 ): TabRoute | null {
   if (pathname === "/history") return "history"
-  if (pathname === "/" && !params.passportId) return "index"
+  if (pathname === "/home" && !params.passportId) return "index"
   return null
 }
 
@@ -76,7 +76,7 @@ function TabBarComponent() {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
 
     // Check if we're actually on the target route (not just showing it as active)
-    const isOnIndex = pathname === "/" && !params.passportId
+    const isOnIndex = pathname === "/home" && !params.passportId
     const isOnHistory = pathname === "/history"
 
     // Don't navigate if already on the actual route
@@ -84,7 +84,7 @@ function TabBarComponent() {
     if (route === "history" && isOnHistory) return
 
     if (route === "index") {
-      router.replace("/")
+      router.replace("/home")
     } else {
       router.push(`/${route}`)
     }

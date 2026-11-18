@@ -10,7 +10,7 @@ export default function SettingsRoute() {
         if (router.canGoBack()) {
           router.back()
         } else {
-          router.replace("/")
+          router.replace("/home")
         }
       }}
     />

@@ -29,7 +29,7 @@ export default function DeveloperOptionsRoute() {
         params: { passportId: getPassportUniqueId(currentPassport) },
       })
     } else {
-      router.replace("/")
+      router.replace("/home")
     }
   }
 

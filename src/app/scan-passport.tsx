@@ -6,14 +6,14 @@ export default function ScanPassportRoute() {
   const { initialStep } = useLocalSearchParams<{ initialStep?: string }>()
 
   const handleFinish = () => {
-    router.replace("/")
+    router.replace("/home")
   }
 
   const handleCancel = () => {
     if (router.canGoBack()) {
       router.back()
     } else {
-      router.replace("/")
+      router.replace("/home")
     }
   }
 

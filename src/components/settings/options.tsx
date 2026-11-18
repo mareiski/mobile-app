@@ -40,7 +40,7 @@ const OptionsPage: React.FC<OptionsPageProps> = ({ passport, onBack, onDeleteCom
       if (router.canGoBack()) {
         router.back()
       } else {
-        router.replace("/")
+        router.replace("/home")
       }
       return true
     }

@@ -55,7 +55,7 @@ const UnsupportedIntentScreen = () => {
     if (hasEligibleAlternate && alternatePassportId) {
       // Switch to the alternate passport and go to main screen
       await updateSettings({ activePassport: alternatePassportId })
-      router.replace("/")
+      router.replace("/home")
       return
     }
 
@@ -71,7 +71,7 @@ const UnsupportedIntentScreen = () => {
    * Simply navigates back to the main tabs screen.
    */
   const handleClose = () => {
-    router.replace("/")
+    router.replace("/home")
   }
 
   // Render the event page with unsupported intent messaging and action handlers

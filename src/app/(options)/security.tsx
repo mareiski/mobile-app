@@ -21,7 +21,7 @@ export default function SecurityRoute() {
     if (router.canGoBack()) {
       router.back()
     } else {
-      router.replace("/")
+      router.replace("/home")
     }
   }
 

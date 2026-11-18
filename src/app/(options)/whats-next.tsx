@@ -29,7 +29,7 @@ export default function WhatsNextRoute() {
         params: { passportId: getPassportUniqueId(currentPassport) },
       })
     } else {
-      router.replace("/")
+      router.replace("/home")
     }
   }
 

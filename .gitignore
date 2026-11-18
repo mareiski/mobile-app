@@ -67,3 +67,6 @@ google-services.json
 
 **/*srs_21.local
 .kotlin
+
+# photon
+android/app/src/main/assets/photon/

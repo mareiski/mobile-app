@@ -425,6 +425,28 @@ export async function checkVersions(
   sdkVersion?: string | null,
   onMount?: boolean,
 ): Promise<VersionCheckResult> {
+  const defaultErrorAppVersionResponse = {
+    needToUpdate: false,
+    requiredVersion: "",
+  }
+
+  const defaultErrorSDKResponse: SDKVersionCheckResult = {
+    sdkVersion: sdkVersion ?? "",
+    sdkVersionSupported: true,
+    sdkVersionRangeSupported: {
+      min: "",
+      max: "",
+    },
+  }
+
+  // skip the check in dev mode
+  if (process.env.NODE_ENV === "development") {
+    return {
+      appVersion: defaultErrorAppVersionResponse,
+      sdkVersion: defaultErrorSDKResponse,
+    }
+  }
+
   try {
     const response = await withRetry(() =>
       fetch(API_URL + "/versions", {
@@ -450,18 +472,6 @@ export async function checkVersions(
   } catch {
     // If the call to the API fails, we dont want to block the flow.
     // This is purely informational and for UX, just return the input back.
-    const defaultErrorSDKResponse: SDKVersionCheckResult = {
-      sdkVersion: sdkVersion ?? "",
-      sdkVersionSupported: true,
-      sdkVersionRangeSupported: {
-        min: "",
-        max: "",
-      },
-    }
-    const defaultErrorAppVersionResponse = {
-      needToUpdate: false,
-      requiredVersion: "",
-    }
 
     if (check.sdkVersion && sdkVersion) {
       return {

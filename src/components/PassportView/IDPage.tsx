@@ -58,7 +58,7 @@ export default function Home({
   useFocusEffect(
     React.useCallback(() => {
       const onBackPress = () => {
-        router.replace("/")
+        router.replace("/home")
         return true
       }
       const subscription = BackHandler.addEventListener("hardwareBackPress", onBackPress)

@@ -20,7 +20,7 @@ export default function TechnicalInfoRoute() {
     if (router.canGoBack()) {
       router.back()
     } else {
-      router.replace("/")
+      router.replace("/home")
     }
     return <></>
   }

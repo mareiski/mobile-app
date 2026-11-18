@@ -31,7 +31,7 @@ export default function OptionsRoute() {
       if (router.canGoBack()) {
         router.back()
       } else {
-        router.replace("/")
+        router.replace("/home")
       }
     }, 100)
     return () => clearTimeout(timer)
@@ -48,7 +48,7 @@ export default function OptionsRoute() {
     if (router.canGoBack()) {
       router.back()
     } else {
-      router.replace("/")
+      router.replace("/home")
     }
   }
 
@@ -59,7 +59,7 @@ export default function OptionsRoute() {
         if (router.canGoBack()) {
           router.back()
         } else {
-          router.replace("/")
+          router.replace("/home")
         }
       }}
       onDeleteComplete={handleDeleteComplete}
