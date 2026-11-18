@@ -126,12 +126,22 @@ interface AccessRequestViewProps {
   onClose: () => void
   credentialsRequest: QRCodeData | null
   passport: PassportViewModel | null
+  localMode?: boolean
+  onLocalProofComplete?: (proofs: ProofResult[], queryResult: QueryResult) => void
+  onLocalError?: (code: "cancelled" | "failed") => void
 }
 
-const AccessRequestView = ({ onClose, credentialsRequest, passport }: AccessRequestViewProps) => {
+const AccessRequestView = ({
+  onClose,
+  credentialsRequest,
+  passport,
+  localMode = false,
+  onLocalProofComplete,
+  onLocalError,
+}: AccessRequestViewProps) => {
   const { t } = useTranslation()
   const {
-    isDomainVerified,
+    isDomainVerified: isBridgeDomainVerified,
     notifyAccept,
     notifyReject,
     notifyError,
@@ -139,6 +149,7 @@ const AccessRequestView = ({ onClose, credentialsRequest, passport }: AccessRequ
     notifyDone,
     closeConnection,
   } = useWebSocket()
+  const isDomainVerified = localMode || isBridgeDomainVerified
   const {
     settings,
     getCommitmentSalt,
@@ -152,6 +163,31 @@ const AccessRequestView = ({ onClose, credentialsRequest, passport }: AccessRequ
 
   const { reportError, resetCircuitErrorRetry, setRetryProofGeneration } = useError()
   const { closeScanner } = useQRScanner()
+  const localProofsRef = useRef<ProofResult[]>([])
+
+  const sendProof = async (proof: ProofResult) => {
+    if (localMode) {
+      localProofsRef.current.push(proof)
+      return true
+    }
+    return notifyProof(proof)
+  }
+
+  const sendDone = async (queryResult: QueryResult) => {
+    if (localMode) {
+      onLocalProofComplete?.(localProofsRef.current, queryResult)
+      return true
+    }
+    return notifyDone(queryResult)
+  }
+
+  const sendError = async (message: string) => {
+    if (localMode) {
+      onLocalError?.("failed")
+      return true
+    }
+    return notifyError(message)
+  }
 
   // Use the active passport from settings, falling back to the prop
   const activePassport =
@@ -332,7 +368,7 @@ const AccessRequestView = ({ onClose, credentialsRequest, passport }: AccessRequ
   }, [])
 
   useEffect(() => {
-    if (!credentialsRequest?.topic) {
+    if (!credentialsRequest?.topic || localMode) {
       return
     }
 
@@ -349,13 +385,17 @@ const AccessRequestView = ({ onClose, credentialsRequest, passport }: AccessRequ
     }, 30000)
 
     return () => clearTimeout(timeout)
-  }, [credentialsRequest?.topic])
+  }, [credentialsRequest?.topic, localMode])
 
   useEffect(() => {
     if (isDomainVerified) {
       setDomainVerifying(false)
     }
   }, [isDomainVerified])
+
+  useEffect(() => {
+    localProofsRef.current = []
+  }, [credentialsRequest?.topic])
 
   // Animate scroll indicator appearance/disappearance
   useEffect(() => {
@@ -378,7 +418,7 @@ const AccessRequestView = ({ onClose, credentialsRequest, passport }: AccessRequ
     getLoadingText,
     getBaseProofProgressShare,
     credentialsRequest,
-    notifyError,
+    sendError,
     setProgress,
     settings,
     t,
@@ -527,7 +567,7 @@ const AccessRequestView = ({ onClose, credentialsRequest, passport }: AccessRequ
         }
         let baseSubproofs: ProofResult[] | undefined
         if (!hasNotifiedAccept) {
-          await notifyAccept()
+          if (!localMode) await notifyAccept()
           setHasNotifiedAccept(true)
         }
 
@@ -604,7 +644,7 @@ const AccessRequestView = ({ onClose, credentialsRequest, passport }: AccessRequ
             if (router.canGoBack()) {
               router.back()
             } else {
-              router.replace("/")
+              router.replace("/home")
             }
 
             if (accessRequestTimerRef.current) {
@@ -734,7 +774,7 @@ const AccessRequestView = ({ onClose, credentialsRequest, passport }: AccessRequ
             },
             /* onProofGenerated: async (proof) => {
               // Send proof to the service
-              await notifyProof({
+              await sendProof({
                 ...proof,
                 version: circuitVersion,
               })
@@ -755,7 +795,7 @@ const AccessRequestView = ({ onClose, credentialsRequest, passport }: AccessRequ
 
           // If an outer proof was generated, send it to the service
           if (!!result.outerProof) {
-            await notifyProof({
+            await sendProof({
               ...result.outerProof,
               version: circuitVersion,
               index: 0,
@@ -766,7 +806,7 @@ const AccessRequestView = ({ onClose, credentialsRequest, passport }: AccessRequ
             const total = result.baseSubproofs.length + result.disclosureProofs.length
             // If no outer proof was generated, send directly the base subproofs to the service
             for (const proof of result.baseSubproofs) {
-              await notifyProof({
+              await sendProof({
                 ...proof,
                 version: circuitVersion,
                 index: index,
@@ -777,7 +817,7 @@ const AccessRequestView = ({ onClose, credentialsRequest, passport }: AccessRequ
 
             // ... and the disclosure proofs
             for (const proof of result.disclosureProofs) {
-              await notifyProof({
+              await sendProof({
                 ...proof,
                 version: circuitVersion,
                 index: index,
@@ -881,15 +921,15 @@ const AccessRequestView = ({ onClose, credentialsRequest, passport }: AccessRequ
         setTimeout(async () => {
           setIsLoading(false)
           setIsComplete(true)
-          await notifyDone(finalQueryResult)
+          await sendDone(finalQueryResult)
         }, 2000)
       } else {
         setIsLoading(true)
 
         if (!canGenerateProofs()) {
-          await notifyError("The user's device does not have enough memory to proceed")
+          await sendError("The user's device does not have enough memory to proceed")
         } else {
-          await notifyError("This ID is not supported yet")
+          await sendError("This ID is not supported yet")
         }
 
         // If the Document is not supported yet or the device doesn't have enough memory
@@ -899,7 +939,7 @@ const AccessRequestView = ({ onClose, credentialsRequest, passport }: AccessRequ
         setTimeout(async () => {
           setIsLoading(false)
           setIsComplete(true)
-          await notifyDone(
+          await sendDone(
             getPassportFieldsFromQuery(credentialsRequest?.query!, activePassport!, false, false),
           )
         }, 1000)
@@ -915,7 +955,7 @@ const AccessRequestView = ({ onClose, credentialsRequest, passport }: AccessRequ
       setIsLoading(false)
 
       if (error instanceof SanctionsFailedError) {
-        await notifyError("Sanctions check failed")
+        await sendError("Sanctions check failed")
       }
 
       // End timer and get timing for error context
@@ -1001,7 +1041,8 @@ const AccessRequestView = ({ onClose, credentialsRequest, passport }: AccessRequ
     // clean up the state
     try {
       // Don't fail if the reject notification fails
-      await notifyReject()
+      if (localMode) onLocalError?.("cancelled")
+      else await notifyReject()
     } catch (error) {
       console.log("Error notifying reject:", error)
     }
