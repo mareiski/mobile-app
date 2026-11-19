@@ -272,7 +272,7 @@
         app:layout_constraintBottom_toBottomOf="@id/mrz_guide" />
 
     <!-- Corner brackets overlay -->
-    <app.zkpassport.zkpassport.mrzscan.CornerBracketView
+    <app.mareiski.tranym.mrzscan.CornerBracketView
         android:id="@+id/mrz_corner_brackets"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -283,7 +283,7 @@
         app:layout_constraintBottom_toBottomOf="@id/mrz_guide" />
 
     <!-- MRZ Text Overlay -->
-    <app.zkpassport.zkpassport.mrzscan.MrzTextOverlayView
+    <app.mareiski.tranym.mrzscan.MrzTextOverlayView
         android:id="@+id/mrz_text_overlay"
         android:layout_width="0dp"
         android:layout_height="0dp"

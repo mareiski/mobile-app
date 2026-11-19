@@ -1,4 +1,4 @@
-package app.zkpassport.zkpassport.mrzscan
+package app.mareiski.tranym.mrzscan
 
 /**
  * Enhanced character confusion matrix for MRZ OCR correction

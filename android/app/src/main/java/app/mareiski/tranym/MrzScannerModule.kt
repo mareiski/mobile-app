@@ -1,4 +1,4 @@
-package app.zkpassport.zkpassport
+package app.mareiski.tranym
 
 import android.app.Activity
 import android.content.Intent
@@ -10,8 +10,8 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
 import com.facebook.react.bridge.ReadableMap
 import com.facebook.react.bridge.WritableMap
-import app.zkpassport.zkpassport.mrzscan.CameraActivity
-import app.zkpassport.zkpassport.mrzscan.IntentData
+import app.mareiski.tranym.mrzscan.CameraActivity
+import app.mareiski.tranym.mrzscan.IntentData
 import org.jmrtd.lds.icao.MRZInfo
 
 class MrzScannerModule(private val reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {

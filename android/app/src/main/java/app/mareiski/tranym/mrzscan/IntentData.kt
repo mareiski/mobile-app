@@ -1,4 +1,4 @@
-package app.zkpassport.zkpassport.mrzscan
+package app.mareiski.tranym.mrzscan
 
 object IntentData {
 

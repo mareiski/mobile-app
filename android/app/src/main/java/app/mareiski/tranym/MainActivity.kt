@@ -1,4 +1,4 @@
-package app.zkpassport.zkpassport
+package app.mareiski.tranym
 import expo.modules.splashscreen.SplashScreenManager
 
 import android.content.Intent

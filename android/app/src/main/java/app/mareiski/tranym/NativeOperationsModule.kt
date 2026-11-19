@@ -1,4 +1,4 @@
-package app.zkpassport.zkpassport
+package app.mareiski.tranym
 
 import com.facebook.react.bridge.NativeModule
 import com.facebook.react.bridge.ReactApplicationContext

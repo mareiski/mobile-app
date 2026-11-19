@@ -41,6 +41,8 @@
         <data android:scheme="zkpassport"/>
         <data android:scheme="exp+zkpassport"/>
         <data android:scheme="app.zkpassport.zkpassport"/>
+        <data android:scheme="tranym"/>
+        <data android:scheme="exp+tranym"/>
       </intent-filter>
       <intent-filter android:autoVerify="true" data-generated="true">
         <action android:name="android.intent.action.VIEW"/>

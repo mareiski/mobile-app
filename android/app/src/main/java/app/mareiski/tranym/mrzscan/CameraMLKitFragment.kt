@@ -1,4 +1,4 @@
- package app.zkpassport.zkpassport.mrzscan
+ package app.mareiski.tranym.mrzscan
 
 import android.Manifest
 import android.animation.ValueAnimator
@@ -41,7 +41,7 @@ import androidx.lifecycle.LifecycleOwner
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.common.util.concurrent.ListenableFuture
 import org.jmrtd.lds.icao.MRZInfo
-import app.zkpassport.zkpassport.R
+import app.mareiski.tranym.R
 import java.nio.ByteBuffer
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors

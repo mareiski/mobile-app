@@ -1,7 +1,7 @@
-package app.zkpassport.zkpassport.mrzscan
+package app.mareiski.tranym.mrzscan
 
-import app.zkpassport.zkpassport.BuildConfig
-import app.zkpassport.zkpassport.mrzscan.OpenCVImagePreprocessor
+import app.mareiski.tranym.BuildConfig
+import app.mareiski.tranym.mrzscan.OpenCVImagePreprocessor
 
 import android.os.Handler
 import android.os.Looper

@@ -1,4 +1,4 @@
-package app.zkpassport.zkpassport.mrzscan
+package app.mareiski.tranym.mrzscan
 
 /**
  * Mirrors the iOS ScanStatus enum so we can drive the Android overlay

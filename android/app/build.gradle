@@ -103,14 +103,14 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace 'app.zkpassport.zkpassport'
+    namespace 'app.mareiski.tranym'
 
     buildFeatures {
         viewBinding true
     }
 
     defaultConfig {
-        applicationId 'app.zkpassport.zkpassport'
+        applicationId 'app.mareiski.tranym'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -245,7 +245,7 @@ dependencies {
     implementation "androidx.camera:camera-view:${camerax_version}"
 
     // Tesseract4Android for OCR-B/MRZ
-    implementation 'com.github.adaptech-cz.Tesseract4Android:tesseract4android-openmp:4.9.0'
+    implementation 'com.github.adaptech-cz.Tesseract4Android:tesseract4android-openmp:4.8.0'
 
     // OpenCV for advanced image preprocessing (available on Maven Central since 4.9.0)
     implementation 'org.opencv:opencv:4.9.0'

@@ -1,4 +1,4 @@
-package app.zkpassport.zkpassport.mrzscan
+package app.mareiski.tranym.mrzscan
 
 import android.graphics.Bitmap
 import android.graphics.Rect

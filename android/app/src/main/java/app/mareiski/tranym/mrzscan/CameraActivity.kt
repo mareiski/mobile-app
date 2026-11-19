@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package app.zkpassport.zkpassport.mrzscan
+package app.mareiski.tranym.mrzscan
 
 import android.app.Activity
 import android.content.Intent
@@ -27,7 +27,7 @@ import androidx.appcompat.app.AppCompatActivity
 
 import org.jmrtd.lds.icao.MRZInfo
 
-import app.zkpassport.zkpassport.R
+import app.mareiski.tranym.R
 
 class CameraActivity : AppCompatActivity(), CameraMLKitFragment.CameraMLKitCallback {
     // Indicates if the MRZ has been seen at least once
